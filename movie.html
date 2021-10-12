@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            background-color: black;
+            color: cyan;
+        }
+        input{
+            width: 200px;
+            padding: 5px;
+            color: cyan;
+        }
+        #movies{
+            height: 210px;
+            width: 210px;
+            border: 1px solid black;
+            overflow: scroll;
+            border-top: none;
+            background-color: black;
+            color: cyan;
+        }
+        #movies > p{
+            border:1px solid white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Search Engine</h1>
+    <input type="text" oninput="debounce(main,1000)" id="movie" placeholder="Search your movie"/>
+
+
+
+    
+    <div id="movies"></div>
+</body>
+</html>
+<script>
+    var timer_Id;
+    let movies_div = document.getElementById('movies');
+    async function searchMovie(movie_name)
+    {
+        try{
+            let res = await fetch(`http://www.omdbapi.com/?apikey=d806bd70&s=${movie_name}`);
+            var data =  await res.json();
+            console.log("data",data);
+            return data;
+        }
+        catch(e){
+            console.log("e",e);
+        }
+        
+    }
+    //searchMovie("inception");
+    function appendMovies(movies)
+    {
+        movies_div.innerHTML=null;
+    if(movies === undefined)
+    {
+        return false;
+    }else
+    {
+        movies.forEach(function(movie){
+            
+            let p = document.createElement('p');
+
+            p.innerText = movie.Title;
+
+            movies_div.append(p);
+        });
+
+    }
+    }
+
+   async function main(){
+        let name = document.getElementById("movie").value;
+
+        if(name.length < 3){
+            return false;
+        }
+        var res = await  searchMovie(name);
+       // console.log("res",res);
+        console.log("2",res.Search)
+        appendMovies(res.Search)
+    }
+    function debounce(func, delay){
+
+        if(timer_Id){
+
+        clearTimeout(timer_Id);
+        }
+        timer_Id = setTimeout(function(){
+            func();
+        },delay);
+
+    }
+
+</script>
