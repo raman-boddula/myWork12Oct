@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            background-color: black;
+            color: cyan;
+        }
+        input{
+            width: 40%;
+            margin-left:30%;
+            padding: 1%;
+            color: cyan;
+            font-size: xx-large;
+            border: 1px solid white;
+            border-radius: 10px;
+            display: none;
+        }
+        #products,#popu{
+            width: 100%;
+            display: grid;
+            grid-template-columns: 24% 24% 24% 24% ;
+            grid-gap: 1%;
+        }
+        img{
+            width: 100%;
+        }
+        #heading{
+            width: 10%;
+            margin: auto;
+            margin-bottom: 2%;
+        }
+        #pop{
+            width: 15%;
+            font-size: xx-large;
+            margin: auto;
+            margin-bottom: 5%;
+        }#popuh{
+            
+            width:15%;
+            margin: auto;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="heading"> <u> Movie Hub </u></h1>
+    <input type="text" oninput="debounce(main,1000)" id="movie" placeholder="Search your movie"/>
+<h1 id="pop">Popular Movies</h1>
+    <div id="products">
+
+    </div>
+<h1 id="popuh">Trending Movies</h1>
+    <div id="popu">
+
+    </div>    
+</body>
+</html>
+<script>
+    fetch(`https://api.themoviedb.org/3/movie/popular?api_key=5b1e6a4a630f0cad20679a8e59d62fb3`)
+            .then(function(res){
+                return res.json();
+            })
+            .then(function(res){
+                console.log("res",res.results)
+                ShowProducts(res.results)
+
+            })
+            .catch(function(err){
+                console.log('err',err);
+            })
+     var popu = document.getElementById('popu');
+     var tren = document.getElementById('products');
+     function ShowProducts(ar)
+     {
+         console.log("arrrrr",ar)
+         //mainProd.innerHTML=null;
+         ar.forEach(function(arrr){
+
+         let div = document.createElement('div');
+
+        let img = document.createElement('img');
+        img.src='https://image.tmdb.org/t/p/w500'+arrr.poster_path;
+        let date = document.createElement('h3');
+        date.innerText = arrr.release_date;
+        let name = document.createElement('h3');
+        name.innerText = arrr.title;
+        let rating = document.createElement('h3');
+        rating.innerText = "Rating "+arrr.vote_average;
+        if(arrr.vote_average > 7.5)
+        {
+            div.append(img,name,rating,date);
+            popu.append(div);
+        }else if(arrr.popularity > 1500){
+
+            div.append(img,name,rating,date);
+            tren.append(div);
+        }
+        
+         })
+     }
+
+</script>
