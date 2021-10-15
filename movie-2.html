@@ -11,19 +11,29 @@
             color: cyan;
         }
         input{
-            width: 200px;
-            padding: 5px;
+            width: 40%;
+            padding: 10px;
             color: cyan;
+            font-size: x-large;
+            margin-left: 30%;
         }
         #movies{
-            height: 210px;
-            width: 210px;
+            width: 41.2%;
             border: 1px solid black;
-            overflow: scroll;
+            overflow-y: visible;
             border-top: none;
             background-color: black;
             color: cyan;
             cursor: pointer;
+            margin-left: 30%;
+            border: 1px solid white;
+        }
+        #movies > button:hover{
+            color: white;
+        }
+        h1{
+            width: 18%;
+            margin: auto;
         }
         #movies > p{
             border:1px solid white;
@@ -44,6 +54,17 @@
             box-shadow: 1px 1px 2px 0px white;
             border: 3px solid paleturquoise;
         }
+        #prod{
+            margin: auto;
+            margin-left:42% 
+        }
+        .resBtn{
+            width: 100%;
+            padding: 5px;
+            font-size: x-large;
+            border: none;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -54,7 +75,7 @@
 
     
     <div id="movies"></div>
-
+    <br>
     <div id="prod">
 
     </div>
@@ -88,6 +109,7 @@
         movies.forEach(function(movie){
             
             let p = document.createElement('button');
+            p.setAttribute('class','resBtn')
             
             p.innerText = movie.Title;
 
